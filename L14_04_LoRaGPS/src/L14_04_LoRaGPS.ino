@@ -24,6 +24,7 @@ Adafruit_SSD1306 display(OLED_RESET);
 Adafruit_MQTT_SPARK mqtt(&TheClient,AIO_SERVER,AIO_SERVERPORT,AIO_USERNAME,AIO_KEY);
 Adafruit_MQTT_Publish coordinates = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/GPSGenerator");
 
+
 Adafruit_MQTT_Publish pubFeed = Adafruit_MQTT_Publish(&mqtt,AIO_USERNAME"/feeds/lat"); 
 Adafruit_MQTT_Publish pubFeed2 = Adafruit_MQTT_Publish(&mqtt,AIO_USERNAME"/feeds/lon"); 
 // Define User and Credentials
@@ -273,12 +274,26 @@ void createEventPayLoad(float latValue, float lonValue) {
     JsonWriterAutoObject obj(&jw);
     jw.insertKeyValue("lat", latValue);
     jw.insertKeyValue("lon", lonValue);
+    jw.insertKeyValue("name","Rail");
   }
   coordinates.publish(jw.getBuffer());
+
+
+display.begin(SSD1306_SWITCHCAPVCC,0x3C);
+   display.clearDisplay();
+  display.setCursor(0,0);
+  display.setRotation(2);
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  
+  display.printf("lattitude is %f0.6\n",lat);
+  display.printf("longitude is %f0.6\n",lon);
+  display.printf("altitude is %f0.6\n",alt);
+  display.printf("satelites are %i\n",sat);
+  display.printf("Train Approaching!");
+  display.display();
+
 }
-
-
-
 
 
 

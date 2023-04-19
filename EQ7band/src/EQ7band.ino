@@ -12,8 +12,9 @@ int outPin= A3;
 int resetPin= D5;
 int level[7] = {0, 0, 0, 0, 0, 0, 0};
 const int PIXELPIN = D3;
-const int PIXELCOUNT = 60;
+const int PIXELCOUNT = 120;
 const int numBands = 7;
+const int PIXPERBAND =8;
 int i=0;
 int soundInput;
 const int anaPin= A3;
@@ -27,6 +28,7 @@ void setup() {
   pinMode(resetPin, OUTPUT);   // Set reset pin as output
   pinMode(anaPin, INPUT);   // Set analog input pin as input
   pixel.begin();
+  pixel.setBrightness (255);
   //pixel.clear();
   pixel.show();
   Serial.begin(9600);
@@ -48,32 +50,32 @@ void loop() {
     soundInput=level[i];
     if (soundInput>=0 && soundInput<63) {
       
-      pixelFill (3*i,3*i+3,fullred);
+      pixelFill (PIXPERBAND*i,PIXPERBAND*i+PIXPERBAND,fullred);
       pixel.show ();
     }
    if (soundInput>=63 && soundInput<160) {
      
-      pixelFill (3*i,3*i+3,orange);
+      pixelFill (PIXPERBAND*i,PIXPERBAND*i+PIXPERBAND,orange);
       pixel.show ();
     }
     if (soundInput>=160 && soundInput<400) {
       
-      pixelFill (3*i,3*i+3,fullyellow);
+      pixelFill (PIXPERBAND*i,PIXPERBAND*i+PIXPERBAND,fullyellow);
       pixel.show ();
     }
     if (soundInput>=400 && soundInput<1000) {
       
-      pixelFill (3*i,3*i+3,fullgreen);
+      pixelFill (PIXPERBAND*i,PIXPERBAND*i+PIXPERBAND,fullgreen);
       pixel.show ();
     }
     if (soundInput>=1000 && soundInput<2500) {
     
-      pixelFill (3*i,3*i+3,fullblue);
+      pixelFill (PIXPERBAND*i,PIXPERBAND*i+PIXPERBAND,fullblue);
       pixel.show ();
     }
     if (soundInput>=2500 && soundInput<16000) {
       
-      pixelFill (3*i,3*i+3,purple);
+      pixelFill (PIXPERBAND*i,PIXPERBAND*i+PIXPERBAND,purple);
       pixel.show ();
     }
   }
@@ -88,7 +90,7 @@ void loop() {
 }
 int pixelFill (int startPixel, int endPixel, int hexColor){
   for (int i=startPixel; i<endPixel;i++){
-pixel.setBrightness (50);
+
 pixel.setPixelColor (i,hexColor);
 pixel.show();
 
